@@ -2,20 +2,24 @@ defmodule CanonicalHost do
   @behaviour Plug
 
   @impl true
-  def init(nil), do: %{host: nil, scheme: nil}
-
-  def init(canonical_scheme_and_host) do
-    uri = URI.parse(canonical_scheme_and_host)
-
-    %{host: uri.host, scheme: uri.scheme}
+  def init(opts) do
+    [config_key: opts |> Keyword.validate!([:config_key]) |> Keyword.get(:config_key, :default)]
   end
 
   @impl true
-  def call(conn, %{host: nil}), do: conn
-  def call(%Plug.Conn{host: host} = conn, %{host: host}), do: conn
-  def call(%Plug.Conn{method: method} = conn, %{}) when method != "GET", do: conn
+  def call(%Plug.Conn{method: method} = conn, _) when method != "GET", do: conn
 
-  def call(conn, %{host: host, scheme: scheme}) do
+  def call(conn, config_key: config_key) do
+    case Application.get_env(:canonical_host, config_key) do
+      nil -> conn
+      opts -> do_call(conn, Keyword.get(opts, :host), Keyword.get(opts, :scheme, "https"))
+    end
+  end
+
+  defp do_call(conn, nil, _scheme), do: conn
+  defp do_call(%Plug.Conn{host: host} = conn, host, _scheme), do: conn
+
+  defp do_call(conn, host, scheme) do
     location = "#{scheme}://#{host}#{conn.request_path}#{query_suffix(conn.query_string)}"
 
     conn
