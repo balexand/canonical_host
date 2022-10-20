@@ -8,7 +8,7 @@ defmodule CanonicalHost.MixProject do
       app: :canonical_host,
       description: "Plug for redirecting all traffic to a canonical host.",
       version: @version,
-      elixir: "~> 1.12",
+      elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: [
