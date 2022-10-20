@@ -54,6 +54,7 @@ defmodule CanonicalHostTest do
   end
 
   test "with custom config key" do
+    Application.put_env(:canonical_host, :default, host: "www.example.com")
     Application.put_env(:canonical_host, :custom, host: "custom.com")
 
     conn = conn(:get, "/") |> CanonicalHost.call(CanonicalHost.init(config_key: :custom))
