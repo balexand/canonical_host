@@ -7,14 +7,15 @@ defmodule CanonicalHost do
   end
 
   @impl true
-  def call(%Plug.Conn{method: method} = conn, _) when method != "GET", do: conn
 
-  def call(conn, config_key: config_key) do
+  def call(%Plug.Conn{method: "GET"} = conn, config_key: config_key) do
     case Application.get_env(:canonical_host, config_key) do
       nil -> conn
       opts -> do_call(conn, Keyword.get(opts, :host), Keyword.get(opts, :scheme, "https"))
     end
   end
+
+  def call(conn, _), do: conn
 
   defp do_call(conn, nil, _scheme), do: conn
   defp do_call(%Plug.Conn{host: host} = conn, host, _scheme), do: conn
