@@ -50,6 +50,6 @@ plug CanonicalHost, config_key: :two
 
 I chose to create a new library instead of using this library for the following reasons:
 
-1. Has awkward configuration. It is not convenient to configure at runtime. Instead, the README suggests that you write your own function plug and then call both `PlugCanonicalHost.init/1` and `PlugCanonicalHost.call/2` in your function plug.
+1. Has awkward configuration. It is not convenient to configure at runtime. Instead, the [README](https://github.com/remi/plug_canonical_host/blob/master/README.md) suggests that you write your own function plug and then call both `PlugCanonicalHost.init/1` and `PlugCanonicalHost.call/2` in your function plug.
 2. Redirects HTTP requests with methods other than `GET`. Consider a case where an API client sends a `POST` request to your app at the non-canonical domain. `PlugCanonicalHost` will cause the request to not be handled but will return an HTTP `301` response which would make the client believe that the request succeeded.
 3. Tries to redirect with the same scheme (HTTP/HTTPS) and port number as the original request. I'd prefer to always redirect to the canonical scheme/host/port and save the user a possible extra redirect.
