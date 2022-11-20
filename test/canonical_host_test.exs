@@ -1,6 +1,7 @@
 defmodule CanonicalHostTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   use Plug.Test
+
   import Phoenix.ConnTest, only: [redirected_to: 1]
 
   setup do
