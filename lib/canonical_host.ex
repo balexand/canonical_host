@@ -3,7 +3,9 @@ defmodule CanonicalHost do
 
   @impl true
   def init(opts) do
-    [config_key: opts |> Keyword.validate!([:config_key]) |> Keyword.get(:config_key, :default)]
+    opts = Keyword.validate!(opts, [:config_key])
+
+    [config_key: Keyword.get(opts, :config_key, :default)]
   end
 
   @impl true
@@ -17,7 +19,7 @@ defmodule CanonicalHost do
 
   def call(conn, _), do: conn
 
-  defp do_call(conn, nil, _scheme), do: conn
+  defp do_call(conn, nil = _host, _scheme), do: conn
   defp do_call(%Plug.Conn{host: host} = conn, host, _scheme), do: conn
 
   defp do_call(conn, host, scheme) do
