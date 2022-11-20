@@ -26,6 +26,17 @@ defmodule CanonicalHostTest do
     refute conn.halted
   end
 
+  test "additional_hosts option" do
+    Application.put_env(:canonical_host, :default,
+      host: "canonical.com",
+      additional_hosts: ["www.example.com"]
+    )
+
+    conn = conn(:get, "/my/path?a=b&c=d") |> CanonicalHost.call(CanonicalHost.init([]))
+
+    refute conn.halted
+  end
+
   test "disabled when not configured" do
     Application.delete_env(:canonical_host, :default)
     conn = conn(:get, "/") |> CanonicalHost.call(CanonicalHost.init([]))
