@@ -9,20 +9,20 @@ defmodule CanonicalHost do
   end
 
   @impl true
-
   def call(%Plug.Conn{method: "GET"} = conn, config_key: config_key) do
     case Application.get_env(:canonical_host, config_key) do
       nil -> conn
-      opts -> do_call(conn, Keyword.get(opts, :host), Keyword.get(opts, :scheme, "https"))
+      opts -> do_call(conn, Keyword.get(opts, :host), opts)
     end
   end
 
   def call(conn, _), do: conn
 
-  defp do_call(conn, nil = _host, _scheme), do: conn
-  defp do_call(%Plug.Conn{host: host} = conn, host, _scheme), do: conn
+  defp do_call(conn, nil = _host, _opts), do: conn
+  defp do_call(%Plug.Conn{host: host} = conn, host, _opts), do: conn
 
-  defp do_call(conn, host, scheme) do
+  defp do_call(conn, host, opts) do
+    scheme = Keyword.get(opts, :scheme, "https")
     location = "#{scheme}://#{host}#{conn.request_path}#{query_suffix(conn.query_string)}"
 
     conn
