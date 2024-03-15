@@ -17,6 +17,7 @@ defmodule CanonicalHost.MixProject do
       ],
       docs: [
         extras: ["README.md"],
+        main: "readme",
         source_ref: "v#{@version}",
         source_url: "https://github.com/balexand/canonical_host"
       ]

@@ -1,4 +1,8 @@
 defmodule CanonicalHost do
+  @moduledoc """
+  See [README](readme.html) for usage.
+  """
+
   @behaviour Plug
 
   @impl true
