@@ -11,7 +11,7 @@ The package can be installed by adding `canonical_host` to your list of dependen
 ```elixir
 def deps do
   [
-    {:canonical_host, "~> 0.2"}
+    {:canonical_host, "~> 1.0"}
   ]
 end
 ```

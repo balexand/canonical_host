@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2024-03-15
+
+### Changed
+
+- Only documentation changes since 0.3.0. Updating version number to indicate stable API.
+
 ## [0.3.0] - 2022-11-20
 
-### Added 
+### Added
 
 - `:additional_hosts` option (https://github.com/balexand/canonical_host/pull/5)
